@@ -10,6 +10,7 @@
 // };
 
 const cataoryUL = document.getElementById("cointanerCaritory");
+const newscointnar = document.getElementById("newscointnar");
 // Nav Api Call
 const loadCatariose = () => {
   fetch("https://news-api-fs.vercel.app/api/categories")
@@ -31,6 +32,7 @@ const loadCataroeyDisplay =  (data) => {
     cataoryUL.append(creat);
   });
 
+
   // Add EventLisenar
   cataoryUL.addEventListener("click", (e) => {
     const allLi = document.querySelectorAll("li");
@@ -45,13 +47,33 @@ const loadCataroeyDisplay =  (data) => {
   });
 };
 
-
-
 const loadNewsPat = (id) => {
   fetch(`https://news-api-fs.vercel.app/api/categories/${id}
 `)
     .then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) =>showArtical(data.articles))
+
     .catch(err => console.log(err));
 };
+
+const showArtical= (artical) =>{
+  console.log(artical);
+   newscointnar.innerHTML = ""
+  artical.forEach(element => {
+    newscointnar.innerHTML += `
+     <div class="border-1 border-gray-200  rounded-b-md">
+     <div class="flex">
+       <img src="${element.image.srcset[5].url}" >
+     </div>
+      <div class="px-3 py-4">
+      <h1 class="mt-2 font-bold">${element.title}</h1>
+      <p class="text-[14px] mt-1">${element.time}</p>
+      <button class="btn">BookMark</button>
+      </div>
+     </div>
+    `
+   
+  })
+}
 loadCatariose();
+loadNewsPat('main')
